@@ -11,7 +11,4 @@ class StaticPagesController < ApplicationController
 
   def contact
   end
-
-  def testguard
-  end
 end
