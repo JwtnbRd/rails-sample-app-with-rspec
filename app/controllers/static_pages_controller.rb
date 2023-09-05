@@ -4,4 +4,11 @@ class StaticPagesController < ApplicationController
 
   def help
   end
+
+  def about
+    render stream: true
+  end
+
+  def contact
+  end
 end

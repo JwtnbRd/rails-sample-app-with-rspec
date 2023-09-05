@@ -1,0 +1,16 @@
+<% provide(:title, "About") %>
+
+# Streaming 影響下では下記は反映されない。content_forは反映されるが、それはStreamingの効果を発揮できないという意味でもある。
+<%# <% provide(:title, "Ruby") %>   
+<%# <% provide(:title, "on") %> 
+<%# <% provide(:title, "Rails") %> 
+
+<h1>About</h1>
+<p>
+    <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
+    is a <a href="https://railstutorial.jp/#ebook">book</a> and
+    <a href="https://railstutorial.jp/screencast">screencast</a>
+    to teach web development with
+    <a href="https://rubyonrails.org/">Ruby on Rails</a>.
+    This is the sample app for the tutorial.
+</p>
