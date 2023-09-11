@@ -8,6 +8,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", help_path
     assert_select "a[href=?]", about_path
     assert_select "a[href=?]", contact_path
+    assert_select "a[href=?]", login_path
     assert_select "form[action=?]", users_path
 
     label_titles = ["Name", "Email", "Password", "Confirmation"]
@@ -42,8 +43,9 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_template 'users/show'
     assert_not flash.empty?
+    assert is_logged_in?
     # ↓より↑の方が、better。テキストに対するテストはちょっとしたことで壊れやすく、文章の量が少ないflashでも同様であるから。
     #　そのため、flashが空でないかどうかだけをテストする方が良い。
-    assert_select "div.alert", "Welcome to the Sample App!"
+    # assert_select "div.alert", "Welcome to the Sample App!"
   end
 end
