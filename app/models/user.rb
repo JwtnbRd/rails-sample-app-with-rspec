@@ -14,7 +14,7 @@ class User < ApplicationRecord
                     # before_saveでアドレスを全て小文字に変換する手順を加えたので、case_sensitive:を判断する必要は無くなった。
                     uniqueness: true
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
 
   # User....となるのはクラスメソッドの命名規則？
