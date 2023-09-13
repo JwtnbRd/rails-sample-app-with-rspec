@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  attr_accessor :remember_token, :unco, :lalala
   # before_save { self.email = email.downcase }
   before_save { email.downcase! } #こちらでも可
   
@@ -15,11 +16,40 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
 
+
+  # User....となるのはクラスメソッドの命名規則？
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
     BCrypt::Engine.cost
     
     BCrypt::Password.create(string, cost: cost)
+  end
+
+  # ランダムなトークンを得る
+  def User.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  # 永続セッションのためにユーザーをDBに保存する（ハッシュ化の手続きも踏む）
+  def remember
+    self.remember_token = User.new_token
+    update_attribute(:remember_digest, User.digest(remember_token))
+    remember_digest
+  end
+
+  def session_token
+    remember_digest || remember
+  end
+
+  # 渡されたトークンがダイジェストと一致したら true を返す
+  def authenticated?(remember_token)
+    return false if remember_digest.nil?
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  end
+
+  # ユーザーのログイン情報を破棄する
+  def forget
+    update_attribute(:remember_digest, nil)
   end
 end
