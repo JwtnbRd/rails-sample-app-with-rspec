@@ -11,7 +11,8 @@ puts "creating 1 user..."
 User.create!(name: "Example User",
              email: "example@railstutorial.org",
              password: "foobar",
-             password_confirmation: "foobar")
+             password_confirmation: "foobar",
+             admin: true) 
 
 puts "created 1 user!"
 puts "creating more 99 user..."
