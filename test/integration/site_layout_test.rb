@@ -39,4 +39,19 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", about_path
     assert_select "a[href=?]", contact_path
   end
+
+  test "sing up view layout links" do
+    get signup_path
+    assert_template 'users/new'
+    assert_select "a[href=?]", root_path, count: 2
+    assert_select "a[href=?]", help_path
+    assert_select "a[href=?]", about_path
+    assert_select "a[href=?]", contact_path
+    assert_select "a[href=?]", login_path
+    assert_select "form[action=?]", users_path
+    label_titles = ["Name", "Email", "Password", "Confirmation"]
+    label_titles.each do |title|
+      assert_select "label", title
+    end
+  end 
 end

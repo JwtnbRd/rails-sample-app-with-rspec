@@ -24,7 +24,8 @@ class ActiveSupport::TestCase
 end 
 
 # 以下のコードはAcrionDispatchクラス内で定義しなくても使えるのはなぜ？
-#　逆にクラス指定する必要はなぜあるのか？同じ名前
+#　逆にクラス指定する必要はなぜあるのか？同じ名前のメソッドを用意しておけば、
+# そのメソッドの使い所がどのクラスを継承しているかに応じて、メソッドを使い分けてくれるから？
 class ActionDispatch::IntegrationTest
   def log_in_as(user, password: 'password', remember_me: '1')
     post login_path, params: { session: { email: user.email,
