@@ -27,8 +27,10 @@ class PasswordResetsController < ApplicationController
       @user.errors.add(:password, "can't be empty")
       render 'edit', status: :unprocessable_entity
     elsif @user.update(user_params) # (4)への対応
+      forget @user
       reset_session
       log_in @user
+      @user.update_attribute(:reset_digest, nil)
       flash[:success] = "Password has been reset."
       redirect_to @user
     else
