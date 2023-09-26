@@ -21,3 +21,18 @@ module SampleApp
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+
+Bundler.require(*Rails.groups)
+
+module Projects
+  class Application < Rails::Application
+    config.load_defaults 7.0
+      
+    config.generators do |g|
+      g.test_framework :rspec,
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false
+    end
+  end
+end

@@ -5,34 +5,39 @@ class UserTest < ActiveSupport::TestCase
     @user = User.new(name: "Example User", email: "user@example.com",
                      password: "foobar", password_confirmation: "foobar")
   end
-
+  #　done
   test "should be valid" do
     assert @user.valid?
   end
 
+  #　done
   test "name should be present" do
     @user.name = " "
     assert_not @user.valid?
   end
 
+  #　done
   test "email should be present" do
     @user.email = " "
     assert_not @user.valid?
   end
 
-# Userモデルのname属性の文字数が51文字の場合、そのインスタンスは有効でないということを期待。
+  #　done
+  # Userモデルのname属性の文字数が51文字の場合、そのインスタンスは有効でないということを期待。
   test "name should not be too long" do
     @user.name = "a" * 51
     assert_not @user.valid?
   end
 
-# Userモデルのemail属性の@以下を含めた文字数が256文字になった場合、そのインスタンスは有効でないということを期待。
+  #　done
+  # Userモデルのemail属性の@以下を含めた文字数が256文字になった場合、そのインスタンスは有効でないということを期待。
   test "email should not be too long" do
     @user.email = "a" * 244 + "@example.com"
     assert_not @user.valid?
   end
 
-# メールアドレスのバリデーションテスト。有効なフォーマットを期待する。
+  #　done
+  # メールアドレスのバリデーションテスト。有効なフォーマットを期待する。
   test "email validation should accept valid addresses" do
     valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org first.last@foo.jp alice+bob@baz.cn]
     
@@ -43,7 +48,8 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-# メールアドレスのバリデーションテスト。無効なフォーマットを期待する。
+  #　done
+  # メールアドレスのバリデーションテスト。無効なフォーマットを期待する。
   test "email validation should reject invalid addresses" do
     invalid_addresses = %w[foo@bar..com user@example,com user_at_foo.org user.name@example. foo@bar_baz.com foo@bar+baz.com]
     
@@ -53,7 +59,8 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-# 属性の一意性のバリデーションのテスト。メモリ上だけでなく、DBに実際にインスタンスを保存した上で、他のデータと比較する必要がある。
+  #　done
+  # 属性の一意性のバリデーションのテスト。メモリ上だけでなく、DBに実際にインスタンスを保存した上で、他のデータと比較する必要がある。
   test "email addresses should be unique" do
     # dupは同じ属性を持つデータを複製するためのメソッド。setupで用意したインスタンスを複製している
     duplicate_user = @user.dup
@@ -68,7 +75,8 @@ class UserTest < ActiveSupport::TestCase
     assert_not duplicate_user.valid?
   end
 
-# Userモデルに追加したメールアドレスを小文字に変換して保存するbefore_saveコールバックがうまく動作するかのテスト
+  #　done
+  # Userモデルに追加したメールアドレスを小文字に変換して保存するbefore_saveコールバックがうまく動作するかのテスト
   test "email addresses should be saved as lowercase" do 
     mixed_case_email = "Foo@ExAMPle.CoM"
     @user.email = mixed_case_email
@@ -76,26 +84,61 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
+  #　done
   test "password should be present (nonblank)" do
     @user.password = @user.password_confirmation = " " * 6
     assert_not @user.valid?
   end
 
-  
+  #　done
   test "password should have a minimum length" do
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
 
+  #　done
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?(:remember, '')
   end
 
+  #　done
   test "associated microposts should be destroyed" do 
     @user.save 
     @user.microposts.create!(content: "Lorem ipsum")
     assert_difference 'Micropost.count', -1 do
       @user.destroy
+    end
+  end
+
+  #　done
+  test "should follow and unfollow a user" do 
+    michael = users(:michael)
+    archer = users(:archer)
+    assert_not michael.following?(archer)
+    michael.follow(archer)
+    assert michael.following?(archer)
+    assert archer.followers.include?(michael)
+    michael.unfollow(archer)
+    assert_not michael.following?(archer)
+    michael.follow(michael)
+    assert_not michael.following?(michael)
+  end
+
+  test "feed should have the right posts" do
+    michael = users(:michael)
+    archer = users(:archer)
+    lana = users(:lana)
+    # フォローしているユーザーの投稿を確認
+    lana.microposts.each do |post_following|
+      assert michael.feed.include?(post_following)
+    end
+    # フォロワーがいるユーザー自身の投稿を確認
+    michael.microposts.each do |post_self|
+      assert michael.feed.include?(post_self)
+    end
+    # フォローしていないユーザーの投稿を確認
+    archer.microposts.each do |post_unfollowed|
+      assert_not michael.feed.include?(post_unfollowed)
     end
   end
 end
