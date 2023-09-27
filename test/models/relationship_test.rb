@@ -7,15 +7,18 @@ class RelationshipTest < ActiveSupport::TestCase
                                      followed_id: users(:archer).id)
   end
 
+  #done
   test "should be valid" do
     assert @relationship.valid?
   end
 
+  #done
   test "should require a follower_id" do
     @relationship.follower_id = nil
     assert_not @relationship.valid?
   end
 
+  #done
   test "should require a followed_id" do
     @relationship.followed_id = nil
     assert_not @relationship.valid?
