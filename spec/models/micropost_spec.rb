@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Micropost, type: :model do
   before do 
-    @user = FactoryBot.create(:user)
     @micropost = FactoryBot.create(:micropost)
-    @micropost.user = @user
   end
 
   it "is valid with content and related user_id" do 

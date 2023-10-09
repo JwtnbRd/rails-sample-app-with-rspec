@@ -33,4 +33,8 @@ class MicropostsController < ApplicationController
       @micropost = current_user.microposts.find_by(id: params[:id])
       redirect_to root_url, status: :see_other if @micropost.nil?
     end
+
+    def logged_in?
+      !current_user.nil?
+    end
 end

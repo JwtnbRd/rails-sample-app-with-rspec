@@ -8,6 +8,7 @@ class UsersSignup < ActionDispatch::IntegrationTest
 end
 
 class UserSinupTest < UsersSignup
+  #done
   test "invalid signup information" do
       assert_no_difference 'User.count' do
         post users_path, params: { user: { name: "",
@@ -25,6 +26,7 @@ class UserSinupTest < UsersSignup
       assert_select "div.field_with_errors"
   end
 
+  #done
   test "valid signup information with account activaton" do 
     assert_difference 'User.count', 1 do
       post users_path, params: { user: { name: "Example User",
@@ -47,25 +49,30 @@ class AccountActivationTest < UsersSignup
     @user = assigns(:user)
   end
 
+  #done 
   test "should not be activated" do
     assert_not @user.activated?
   end
 
+  #done 
   test "should not be able to log in before account activation" do
     log_in_as(@user)
     assert_not is_logged_in?
   end
 
+  #done 
   test "should not be able to log in with invalid activation token" do
     get edit_account_activation_path("invalid token", email: @user.email)
     assert_not is_logged_in?
   end
 
+  #done 
   test "should not be able to log in with invalid email" do
     get edit_account_activation_path(@user.activation_token, email: 'wrong')
     assert_not is_logged_in?
   end
 
+  #done 
   test "should log in successfully with valid activation token and email" do
     get edit_account_activation_path(@user.activation_token, email: @user.email)
     assert @user.reload.activated?

@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:michael)
     @other_user = users(:archer)
   end
-
+  # done (only request and response) 
   test "should get new" do
     get signup_path
     assert_response :success
@@ -21,6 +21,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Edit user | #{@base_title}"
   end
 
+  # done (only request and response) 
   # ログインせずにeditアクションを実行しようとする
   test "should redirect edit when not logged in" do
     get edit_user_path(@user)
@@ -28,6 +29,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
+  # done (only request and response) 
   # ログインせずにupdateアクションを実行しようとする
   test "should redirect update when not logged in" do
     patch user_path(@user), params: { user: { name: @user.name, 
@@ -53,6 +55,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
+  # done (only request and response) 
   test "should redirect index when not logged in" do
     get users_path
     assert_redirected_to login_url
@@ -68,6 +71,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_not @other_user.reload.admin?
   end
 
+  # done (only request and response) 
   test "should redirect destroy when not logged in" do
     assert_no_difference 'User.count' do
       delete user_path(@user)

@@ -13,6 +13,7 @@ class InvalidLoginTest < UsersLogin
     assert_template 'sessions/new'
   end
 
+  #done
   test "login with invalid information" do 
     post login_path, params: { session: {email: " ", password: " "}}
     assert_not is_logged_in?
@@ -23,6 +24,7 @@ class InvalidLoginTest < UsersLogin
     assert flash.empty?
   end
 
+  #done
   test "login with valid email & invalid password" do 
     post login_path, params: { session: {email: @user.email, 
                                          password: "invalid"}}
@@ -45,12 +47,13 @@ class ValidLogin < UsersLogin
 end
 
 class ValidLoginTest < ValidLogin
-
+  #done 
   test "valid login" do
     assert is_logged_in?
     assert_redirected_to @user
   end
 
+  #done 
   test "redirect after login" do
     follow_redirect!
     assert_template 'users/show'
@@ -68,12 +71,14 @@ class Logout < ValidLogin
 end
 
 class LogoutTest < Logout
+  # done
   test "successful logout" do 
     assert_not is_logged_in?
     assert_response :see_other
     assert_redirected_to root_url
   end
 
+  # done
   test "redirect after logout" do
     follow_redirect!
     assert_select "a[href=?]", login_path
@@ -81,6 +86,7 @@ class LogoutTest < Logout
     assert_select "a[href=?]", user_path(@user), count: 0
   end
 
+  # done
   test "should still work after logout in secount window" do
     delete logout_path 
     assert_redirected_to root_path
