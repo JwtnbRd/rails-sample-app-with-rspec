@@ -15,13 +15,8 @@ RSpec.describe "UsersLogins", type: :system do
 
   describe "login test" do
     it "allows user to login with valid email and password" do
-      get edit_account_activation_path(user.activation_token, email: user.email)
-
-      visit login_path
-      fill_in "Email", with: user.email
-      fill_in "Password", with: user.password
-      check "Remember me on this computer"
-      click_button "Log in"
+      # ログインのワークフローをサポートモジュールに切り出し
+      log_in_with_remember_me(user)
 
       expect(page).to have_current_path user_path(user)
       expect(page).to have_css "img.gravatar"
