@@ -28,6 +28,7 @@ RSpec.describe "UsersLogins", type: :system do
       expect(page).to have_content user.microposts.count.to_s
       # ページネーション関係はマイクロポスト０だと無理？
       # ファクトリで、マイクロポストをある程度持ったユーザーを作る必要がある？
+      # マイクロポストUIのシステムスペックで書いた
     end
 
     it "doesn't allow user to login with invalid email" do

@@ -71,6 +71,8 @@ RSpec.describe "SiteLayouts", type: :system do
       expect(page).to have_link "Contact", href: contact_path
       expect(page).to have_link "News", href: "https://news.railstutorial.org/"
       expect(find('form')['action']).to eq users_path
+      # expect(page).to have_css "form[action='#{users_path}']"　　#でもok
+      # expect(page).to have_selector "form[action='#{users_path}']" #でもいける
       label_titles = ["Name", "Email", "Password", "Confirmation"]
       label_titles.each do |title|
         expect(page).to have_selector "label", text: title
