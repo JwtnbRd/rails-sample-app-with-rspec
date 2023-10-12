@@ -30,9 +30,8 @@ group :development do
 end
 
 group :test do
-  gem "capybara", "3.37.1"
-  gem "selenium-webdriver", "4.2.0"
-  gem "webdrivers", "5.0.0"
+  gem "capybara"
+  gem "selenium-webdriver"
   gem "rails-controller-testing", "1.0.5"
   gem "minitest", "5.15.0"
   gem "minitest-reporters", "1.5.0"

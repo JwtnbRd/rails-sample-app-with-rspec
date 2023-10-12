@@ -9,7 +9,13 @@ FactoryBot.define do
 
 
     trait :with_microposts do 
-      after(:create) { |user| create_list(:micropost, 10, user: user) }
+      after(:create) { |user| create_list(:micropost, 50, user: user) }
+      activated { true }
+    end
+
+    trait :with_single_micropost do 
+      after(:create) { |user| create_list(:micropost, 1, user: user) }
+      activated { true }
     end
 
     trait :activated do 
