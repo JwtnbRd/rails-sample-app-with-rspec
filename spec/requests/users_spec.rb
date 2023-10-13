@@ -1,18 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "testing before filter" do
-    # let(:user) { FactoryBot.create(:user) }
-    #  -> 代わりにモックを使用
-
-    context "new action" do
+    describe "new action" do 
       it "allows users who are not logged-in to access" do
         get signup_path
         expect(response).to have_http_status(200)
       end
     end
 
-    context "edit action" do
+    describe "edit action" do
       it "redirects users who are not logged-in to login_path" do
         user = double("user", name: "Fake User")
 
@@ -72,4 +68,3 @@ RSpec.describe "Users", type: :request do
       end
     end
   end
-end

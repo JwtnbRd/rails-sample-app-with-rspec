@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Relationship, type: :model do
   let(:relationship) { FactoryBot.create(:relationship) }
   # Relationshipモデルがfollower, followedというエイリアスでUserモデルと関連づけられていることを検証
-  describe "check Relationship model belongs to User class via :follower and :followed" do
+  describe "check Relationship model belongs to User class as :follower and :followed" do
     it "follower belongs to User class" do
       expect(relationship.follower.class).to eq User
     end

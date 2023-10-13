@@ -1,62 +1,66 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the SessionsHelper. For example:
-#
-# describe SessionsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe SessionsHelper, type: :helper do
-  describe "testing if helper methods in sessions_helper works properly" do 
-    let(:user) { FactoryBot.create(:user) }
-
-    context "helpers for login" do
-      it "sets logged in user as current_user" do
+  let(:user) { FactoryBot.create(:user) }
+  
+  describe "#log_in method" do 
+    context "when log_in method is called to user instance" do
+      it "sets current_user as a user" do
         log_in user 
         expect(current_user).to eq user
       end
 
-      it "returns true when user logged in" do
+      it "makes logged_in? method to return true" do
         log_in user
         expect(logged_in?).to be_truthy
       end
     end
+  end
 
-    context "helpers for logout" do
-      it "turns current_user nil when session is cleared" do 
+  describe "#log_out method" do 
+    # reset_sessionメソッドが使えなかった
+    context "when session's data was deleted" do
+      it "turns current_user nil" do 
         log_in user
         expect {
           session[:user_id] = nil
           session[:session_token] = nil
         }.to change{ current_user }.from(user).to(nil) 
-      end
-
-      it "makes user who has remember_token be logged out" do
-        remember user
-        expect {
-          forget user
-        }.to change { current_user }.from(user).to(nil) 
+        expect(logged_in?).to_not eq nil
       end
     end
 
-    context "helpers for remember me" do
-      it "also generates current_user with remember method" do
+    context "when remembered user logges out" do  
+      it "makes user be forgotten and current_user nil" do
+        remember user
+        forget user
+        aggregate_failures do
+          expect(logged_in?).to_not be_truthy
+          expect(current_user).to eq nil 
+          expect(cookies[:user_id]).to eq nil
+          expect(cookies[:remember_token]).to eq nil
+        end
+      end
+    end
+  end
+
+  describe "remember method" do
+    context "when this method is called" do
+      it "generates current_user" do
         remember user
         expect(current_user).to eq user
       end
 
-      it "also makes user to log in with remember method" do
+      it "also makes user to log in" do
         remember user
         expect(logged_in?).to be_truthy
       end
     end
+  end
 
-    context "current_user helper" do
-      it "returns nil when user's remember digest is wrong" do
+  describe "current_user" do 
+    context "when remember digest is wrong" do
+      it "returns nil" do
         user.update_attribute(:remember_digest, User.digest(User.new_token))
         expect(current_user).to eq nil
       end

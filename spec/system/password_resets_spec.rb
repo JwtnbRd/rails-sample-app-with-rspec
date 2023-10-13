@@ -6,7 +6,7 @@ RSpec.describe "PasswordResets", type: :system do
     ActionMailer::Base.deliveries.clear
   end
 
-  let(:user) { FactoryBot.create(:user, :activated) }
+  let(:user) { FactoryBot.create(:user) }
   let(:user_with_activated) { FactoryBot.create(:user, :activated) }
 
 
@@ -43,6 +43,7 @@ RSpec.describe "PasswordResets", type: :system do
 
   describe "test URL for password reset" do 
     context "user should be redirected to root path with invalid infomation" do
+
       scenario "reset with wrong email" do
         visit login_path
         click_link "forgot password"
@@ -50,6 +51,9 @@ RSpec.describe "PasswordResets", type: :system do
         fill_in "Email", with: user.email
         click_button "Submit"
         expect(page).to have_current_path root_path
+        user_with_activated.create_reset_digest
+        expect(user_with_activated.reload.reset_digest).to be_truthy
+
 
 
         # user.reset_tokenがどうやってもnilのままなので、これ以上は無理

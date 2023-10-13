@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "AccountActivations", type: :request do
+  before do
+    ActionMailer::Base.deliveries.clear
+  end
+  
+  let(:user) { FactoryBot.create(:user) }
+  
   describe "test account activation URL" do
-    before do
-      ActionMailer::Base.deliveries.clear
-    end
-    let(:user) { FactoryBot.create(:user) }
-
     context "when the activation URL is valid" do    
       it "makes user activated" do
         expect {

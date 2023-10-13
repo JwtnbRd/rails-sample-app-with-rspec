@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Microposts", type: :request do
-  describe "send requests to microposts controller without log in" do
-    context "try to create micropost" do
-      let(:micropost) { FactoryBot.create(:micropost) }
-      let(:user) { FactoryBot.create(:user) }
-
-      it "doesn't allow user who is not logged in to post any microposts" do 
+  let(:micropost) { FactoryBot.create(:micropost) }
+  let(:user) { FactoryBot.create(:user) }
+  
+  describe "create action" do
+    context "when user is not logged in" do
+      it "doesn't allow user to post any microposts" do 
         expect {
           post microposts_path, params: {
             micropost: { content: "Lorem Ipsum" } 
@@ -16,7 +16,7 @@ RSpec.describe "Microposts", type: :request do
         }.to_not change(Micropost, :count)
       end
 
-      it "doesn't allow user who is not logged in to delete any microposts" do 
+      it "doesn't allow user to delete any microposts" do 
         micropost
         expect {
           delete micropost_path(micropost)

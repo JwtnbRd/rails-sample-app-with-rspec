@@ -1,19 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe "Relationships", type: :request do
-  describe "testing before filter" do
-    let(:relationship) { FactoryBot.create(:relationship) }
-    context "create action" do
-      it "requires user to login" do
+  let(:relationship) { FactoryBot.create(:relationship) }
+  
+  describe "create action" do
+    context "when user is not logged in" do
+      it "fails to create new relationship" do
         expect {
           post relationships_path
-          
           expect(response).to redirect_to login_url
         }.to_not change(Relationship, :count)
       end
     end
+  end
 
-    context "delete action" do
+  describe "delete action" do 
+    context "when user is not logged in" do
       it "requires user to login" do
         relationship
         expect {
