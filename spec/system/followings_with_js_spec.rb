@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "FollowingsWithJs", type: :system do
-  before do
-    driven_by(:selenium_chrome)
-  end
+  # support/capybara.rbに切り出したので不要
+  # before do
+  #   driven_by(:selenium_chrome)
+  # end
 
   let(:user) { FactoryBot.create(:user, :activated) }
   let(:other_user) { FactoryBot.create(:user, :activated) }

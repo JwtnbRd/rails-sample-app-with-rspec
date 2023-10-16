@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "PasswordResets", type: :system do
   before do
-    driven_by(:rack_test)
+    # support/capybara.rbに切り出したので不要
+    # driven_by(:rack_test)
     ActionMailer::Base.deliveries.clear
   end
 

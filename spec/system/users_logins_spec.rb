@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "UsersLogins", type: :system do
-  before do
-    driven_by(:rack_test) 
-  end
+  # support/capybara.rbに切り出したので不要
+  # before do
+  #   driven_by(:rack_test) 
+  # end
 
   def full_title(string)
     base_title = "Ruby on Rails Tutorial Sample App"

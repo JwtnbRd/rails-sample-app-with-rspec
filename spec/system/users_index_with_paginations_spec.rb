@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "UsersIndexWithPaginations", type: :system do
-  before do
-    driven_by(:rack_test)
-  end
+  # support/capybara.rbに切り出したので不要
+  # before do
+  #   driven_by(:rack_test)
+  # end
 
   let(:user) { FactoryBot.create(:user) }
   let(:other_user_with_activated) { FactoryBot.create(:user, :activated) }
